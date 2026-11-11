@@ -1,12 +1,10 @@
 """Write `Behavioral data/trial_inclusion.csv`.
 
-One row for every trial in both experiments, flagged for which of the two analysis sets it
-enters and, if neither, why. `in_trial_level` marks the trials that analyses
-of individual trials use; `in_group_level` marks the subset used wherever a
-mean is taken, within a participant or within a problem. Nothing is deleted: the
-raw files keep all 14,107 Experiment 2 trials and all 3,421 Experiment 1
-trials, and this file records the filtering so it can be reproduced, audited,
-or replaced with different criteria.
+One row for every trial in the repository. `in_trial_level` marks the
+problem-level set, which is every trial. `in_group_level` marks the
+participant-level set, which drops participants with fewer than 12 valid
+trials. The repository holds the analyzed trials only; trials excluded before
+release are described in the main README.
 """
 
 import sys

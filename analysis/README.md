@@ -48,23 +48,17 @@ Requires Python 3.9+ with pandas, numpy, scipy, matplotlib, seaborn and openpyxl
 
 ## Analysis sample
 
-`sample.py` is the only place where trials are included or excluded.
-
-- **Sessions.** `Behavioral data/participant_roster.csv` lists every session in the sample and the participant it belongs to. Fifteen sessions that could not be linked to a Mechanical Turk worker are not in the roster and are excluded.
-- **Repeat sessions.** Each participant contributes one trial per problem. A problem attempted in two sessions contributes the trial from the first session. A problem attempted only in the second session is kept.
-- **Valid trials.** A trial is excluded if the examples were never opened, or if every submission was blank or an unedited copy of the test input.
+The repository contains the analyzed trials, and the exclusions are described in the main README. `sample.py` assigns each trial to a participant and defines the two Experiment 2 analysis sets.
 
 | Set | Participants | Trials | Used for |
 |---|---|---|---|
 | Experiment 2, problem level | 192 | 11,600 | Analyses grouped by problem |
 | Experiment 2, participant level | 185 | 11,563 | Analyses grouped by participant (at least 12 valid trials) |
-| Experiment 1 | 39 | 2,787 | All Experiment 1 analyses (ten pilot sessions excluded) |
-
-`Behavioral data/trial_inclusion.csv` records both Experiment 2 sets for every trial in the raw files.
+| Experiment 1 | 39 | 2,787 | All Experiment 1 analyses |
 
 ## Notes on the data
 
-- `last_time` is not a session clock. Use `order` in `trajectory_measures_exp2.csv` for the position of a trial within a session.
+- `last_time` is not a session clock. Use `order` in `trial_order_exp2.csv` for the position of a trial within a session.
 - In the edit sequences, `x` is the row and `y` is the column.
 - One trial records 44 hours of deliberation time, from a browser that was left open. Timing analyses exclude trials over two hours.
 - The common-error threshold counts participants, not sessions or submissions.

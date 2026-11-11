@@ -27,18 +27,13 @@ EXP1 = DATA_REPO / "Experiment 1"
 EXP2 = DATA_REPO / "Experiment 2"
 
 # Per-trial behavioral measures.
-# Experiment 2 (Mechanical Turk): 14,107 rows, 233 sessions.
+# Experiment 2 (Mechanical Turk): 11,600 analyzed trials.
 SEQ_MEASURES_MTURK = DATA_REPO / "trial_measures_exp2.csv"
-# Experiment 1 (remote-supervised): 3,421 rows, 49 sessions.
+# Experiment 1 (remote-supervised): 2,787 analyzed trials.
 SEQ_MEASURES_ZOOM = DATA_REPO / "trial_measures_exp1.csv"
-# Carries the true trial `order` column -- see ORDER_WARNING below.
-# Trial-level measures with the within-session trial `order`, which exists
-# nowhere else. behavioral_measures_filtered.csv, which this replaces, had the
-# old "at least ten successful trials" subject filter baked in, so the fifteen
-# subjects below that line carried no order and silently dropped out of every
-# within-session analysis regardless of the sample definition. This file is the
-# same merge with that filter removed: 14,107 rows, all 233 sessions.
-BEHAVIORAL_MEASURES = DATA_REPO / "trajectory_measures_exp2.csv"
+# The position of each Experiment 2 trial within its session (`order`). See
+# ORDER_WARNING below.
+BEHAVIORAL_MEASURES = DATA_REPO / "trial_order_exp2.csv"
 BEHAVIORAL_FILTERED = BEHAVIORAL_MEASURES  # old name, kept for callers
 
 # Submitted grids, one file per participant attempt.
@@ -137,7 +132,7 @@ for _d in (DERIVED, TABLES, FIGURES):
 # --- analysis constants -----------------------------------------------------
 # `last_time` in SEQ_MEASURES_MTURK is NOT a session clock; ranking trials by
 # it correlates about -0.2 with true order. Use `order` in BEHAVIORAL_MEASURES.
-ORDER_WARNING = "Use trajectory_measures_exp2.order, never last_time."
+ORDER_WARNING = "Use trial_order_exp2.order, never last_time."
 
 # Subject fl73adm5 / problem 82819916 records a 44-hour deliberation time (an
 # unattended browser session), 35x the next largest trial. Timing analyses drop

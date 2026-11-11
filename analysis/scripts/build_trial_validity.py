@@ -16,8 +16,8 @@ A trial is a valid observation of someone attempting a problem when both hold:
                   trials where the participant never looked at all, and so had
                   nothing from which to infer the transformation.
 
-Shipped as a file rather than computed on demand because it reads all 14,107
-edit-sequence logs.
+Shipped as a file rather than computed on demand because it reads every
+edit-sequence log.
 """
 import sys
 from pathlib import Path

@@ -1,14 +1,9 @@
 """Experiment 1: the remote-supervised sample.
 
-The behavioural file holds 49 sessions. Ten of these are lab pilots run
-between September and November 2021, identifiable in
-``ARC online subject log.xlsx`` by three converging criteria: they consented
-verbally rather than through Qualtrics, they were unpaid where the main sample
-received $30, and they precede the main collection by a two-and-a-half month
-gap. They are excluded, leaving **39** participants.
-
-The published Experiment 1 statistics were computed with the pilots included:
-mean accuracy across all 49 is 89.45%, which is the 89.5% reported.
+The repository holds the 39 participants of the main collection. Ten lab
+pilot sessions that preceded it were excluded before release; the pilot list
+below is kept so the exclusion can be checked against the private collection
+log.
 
 Experiment 1 needs no example-viewing exclusion. Its interface showed the
 examples permanently on the left of the edit screen, so the logs contain no

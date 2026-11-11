@@ -1,9 +1,0 @@
-action,x,y,color,time,outcome,rt
-new,,,,0.0,,
-reset,,,,151.0,,151.0
-showex,,,,2484.0,,2333.0
-hideex,,,,10069.0,,7585.0
-submit,,,,10879.0,fail,810.0
-submit,,,,12432.0,fail,1553.0
-edit,22.0,12.0,0.0,14050.0,1,1618.0
-submit,,,,15506.0,fail,1456.0

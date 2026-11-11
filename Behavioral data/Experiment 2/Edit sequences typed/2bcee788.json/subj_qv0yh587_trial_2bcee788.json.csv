@@ -1,9 +1,0 @@
-action,x,y,color,time,outcome,rt,type
-new,,,,0.0,,,
-reset,,,,253.0,,253.0,
-copy,,,,3722.0,,3469.0,
-edit,4.0,6.0,1.0,5201.0,1,1479.0,click
-edit,5.0,6.0,1.0,5554.0,1,353.0,click
-submit,,,,6950.0,fail,1396.0,
-submit,,,,10220.0,fail,3270.0,
-submit,,,,12331.0,fail,2111.0,

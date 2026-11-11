@@ -2,10 +2,12 @@
 
 Behavioral data, task files and analysis code for the Cognitive Abstraction and Reasoning Corpus (CogARC), a human behavioral dataset built on 75 problems from the Abstraction and Reasoning Corpus (ARC). The data come from the two experiments reported in the associated manuscript.
 
-| | Sample | Setting | Sessions recorded | Trials recorded |
+| | Sample | Setting | Participants | Trials |
 |---|---|---|---|---|
-| Experiment 1 | Boston University | Remote, supervised over video call | 49 | 3,421 |
-| Experiment 2 | Amazon Mechanical Turk | Online, unsupervised | 233 | 14,107 |
+| Experiment 1 | Boston University | Remote, supervised over video call | 39 | 2,787 |
+| Experiment 2 | Amazon Mechanical Turk | Online, unsupervised | 192 | 11,600 |
+
+The repository contains the trials analyzed in the manuscript. Exclusions are described under [Inclusion criteria](#inclusion-criteria).
 
 ## Contents
 
@@ -21,7 +23,7 @@ CogARC-dataRepository/
 │   │   └── Submissions/
 │   ├── trial_measures_exp1.csv
 │   ├── trial_measures_exp2.csv
-│   ├── trajectory_measures_exp2.csv
+│   ├── trial_order_exp2.csv
 │   ├── trial_validity.csv
 │   ├── trial_inclusion.csv
 │   ├── participant_roster.csv
@@ -46,8 +48,6 @@ CogARC-dataRepository/
 Core knowledge tags: `Obj` (objectness), `Geo` (geometry and patterns), `GoD` (goal-directedness), `Num` (numbers and counting).
 
 ## Behavioral data
-
-The raw files hold every trial that was collected, including trials that the manuscript excludes. See [Which trials enter the analyses](#which-trials-enter-the-analyses).
 
 ### Raw trial records
 
@@ -75,12 +75,12 @@ One file per trial, with one row per action in the order it occurred: loading th
 
 | File | Rows | Contents |
 |---|---|---|
-| `trial_measures_exp1.csv` | 3,421 | One row per trial in Experiment 1: deliberation time, time between edits, resets, submissions, outcome. |
-| `trial_measures_exp2.csv` | 14,107 | The same for Experiment 2, plus the time and number of example views. |
-| `trajectory_measures_exp2.csv` | 14,107 | Measures of the edit trajectory for each Experiment 2 trial, and the position of the trial within the session (`order`). |
-| `trial_validity.csv` | 14,107 | For each Experiment 2 trial, whether the grid was edited and whether the examples were opened. |
+| `trial_measures_exp1.csv` | 2,787 | One row per trial in Experiment 1: deliberation time, time between edits, resets, submissions, outcome. |
+| `trial_measures_exp2.csv` | 11,600 | The same for Experiment 2, plus the time and number of example views. |
+| `trial_order_exp2.csv` | 11,600 | The position of each Experiment 2 trial within its session (`order`). |
+| `trial_validity.csv` | 11,600 | For each Experiment 2 trial, the number of edits, example views and submissions that the validity criteria are based on. |
 
-`last_time` in the trial measures is not a session clock. Use `order` in `trajectory_measures_exp2.csv` for the position of a trial within a session.
+`last_time` in the trial measures is not a session clock. Use `order` in `trial_order_exp2.csv` for the position of a trial within a session.
 
 ### Participants
 
@@ -88,40 +88,40 @@ Subject IDs are random strings assigned at the start of a session. Some particip
 
 | File | Contents |
 |---|---|
-| `participant_roster.csv` | Every session in the Experiment 2 sample, the person it belongs to (`person_id`), and whether it was that person's first or second session. |
-| `duplicate_participants.csv` | The subject IDs that belong to the same person. |
+| `participant_roster.csv` | Every Experiment 2 session, the participant it belongs to (`person_id`), and whether it was that participant's first or second session. |
+| `duplicate_participants.csv` | The subject IDs that belong to the same participant. |
 
-## Which trials enter the analyses
+## Inclusion criteria
 
-`Behavioral data/trial_inclusion.csv` has one row per recorded trial and marks the trials that the manuscript analyzes.
+Trials were excluded before release according to the criteria below.
+
+**Experiment 1.** Ten pilot sessions (634 trials) that preceded the main data collection were excluded. The remaining 39 participants contributed 2,787 trials.
+
+**Experiment 2.** Of the 14,107 trials recorded in 233 sessions, 11,600 trials from 192 participants were retained.
+
+| Trials excluded | Criterion |
+|---|---|
+| 1,335 | Repeat attempt: the participant had attempted the problem in an earlier session |
+| 664 | The session could not be linked to a Mechanical Turk worker (15 sessions) |
+| 476 | The examples were not opened during the trial |
+| 32 | The grid was not edited: every submission was blank or a copy of the test input |
+
+Twenty-six participants completed Experiment 2 twice under different subject IDs. Each of these participants contributes the trials from their first session and any problem that they attempted only in their second session, so every participant has one trial per problem.
+
+Analyses grouped by problem use all 11,600 trials. Analyses grouped by participant use 11,563 trials from the 185 participants with at least 12 valid trials.
+
+`Behavioral data/trial_inclusion.csv` has one row per trial.
 
 | Column | Meaning |
 |---|---|
 | `experiment` | 1 or 2 |
-| `subject` | Subject ID, as in the raw files |
+| `subject` | Subject ID |
 | `trial` | ARC problem ID |
 | `person_id` | The participant, who may have more than one subject ID |
-| `record` | The kind of session the trial comes from |
-| `in_trial_level` | Whether the trial enters analyses grouped by problem |
-| `in_group_level` | Whether the trial also enters analyses grouped by participant |
-| `exclusion_reason` | The reason for exclusion, if the trial is excluded |
-
-To reproduce either analysis set, join on (`experiment`, `subject`, `trial`) and keep the rows where the matching column is true.
-
-**Experiment 1.** 2,787 trials from 39 participants. The other 634 trials come from ten pilot sessions that were run before the main collection.
-
-**Experiment 2.** Analyses grouped by problem use 11,600 trials from 192 participants. Analyses grouped by participant use 11,563 trials from the 185 participants who have at least 12 valid trials.
-
-| Trials excluded | Reason |
-|---|---|
-| 1,335 | Repeat session: the participant had already attempted this problem in an earlier session |
-| 664 | The session could not be attributed to a participant |
-| 476 | The examples were never opened during the trial |
-| 32 | The grid was never edited: every submission was blank or a copy of the test input |
-
-Twenty-six participants completed Experiment 2 twice under different subject IDs. The analyses keep each participant's first session, plus any problem that the participant saw only in the second session. The repeat sessions remain in the raw files.
-
-Fifteen sessions could not be linked to a Mechanical Turk worker. They remain in the raw files and are excluded from the analyses, as any of them could be a return visit.
+| `record` | Whether the trial comes from a participant's only session, first session, or second session |
+| `in_trial_level` | True for every trial; the trial is in the problem-level set |
+| `in_group_level` | Whether the trial is also in the participant-level set |
+| `exclusion_reason` | The reason, for trials outside the participant-level set |
 
 ## Common solutions
 
