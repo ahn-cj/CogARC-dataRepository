@@ -1,0 +1,15 @@
+written 2026-11-10 21:13 UTC
+
+COGARC_ROSTER = (unset)
+COGARC_MIN_SOLVED = (unset)
+COGARC_MIN_TRIALS = (unset)
+COGARC_OUTPUT_SUFFIX = (unset)
+COGARC_PRIVATE = (unset)
+
+problem-level set:      192 people, 11,600 trials
+participant-level set:  185 people, 11,563 trials
+
+roster: the shipped one, so this is the sample the manuscript reports.
+
+These are the files the manuscript reports. Analyses grouped by problem
+use the 192-participant set; analyses grouped by participant use the 185.

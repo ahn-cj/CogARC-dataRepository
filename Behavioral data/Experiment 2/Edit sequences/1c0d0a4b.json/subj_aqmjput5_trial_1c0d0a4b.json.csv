@@ -1,0 +1,9 @@
+action,x,y,color,time,outcome,rt
+new,,,,0.0,,
+reset,,,,3271.0,,3271.0
+showex,,,,6226.0,,2955.0
+hideex,,,,8000.0,,1774.0
+submit,,,,8983.0,fail,983.0
+edit,12.0,8.0,4.0,11099.0,0,2116.0
+submit,,,,12046.0,fail,947.0
+submit,,,,13794.0,fail,1748.0

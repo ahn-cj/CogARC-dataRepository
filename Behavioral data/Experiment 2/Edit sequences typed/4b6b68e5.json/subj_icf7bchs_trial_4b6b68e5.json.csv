@@ -1,0 +1,7 @@
+action,x,y,color,time,outcome,rt,type
+new,,,,0.0,,,
+submit,,,,1429.0,fail,1429.0,
+reset,,,,1909.0,,480.0,
+edit,4.0,20.0,2.0,2798.0,0,889.0,click
+submit,,,,4213.0,fail,1415.0,
+submit,,,,5676.0,fail,1463.0,

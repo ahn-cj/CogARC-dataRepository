@@ -1,0 +1,32 @@
+{
+    "task": "d511f180",
+    "subject": "phbjwkyw",
+    "submission_count": 2,
+    "grid_data": [
+        [
+            8,
+            8,
+            4,
+            5
+        ],
+        [
+            3,
+            8,
+            7,
+            5
+        ],
+        [
+            3,
+            7,
+            8,
+            9
+        ],
+        [
+            6,
+            4,
+            8,
+            5
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

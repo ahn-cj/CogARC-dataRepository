@@ -1,0 +1,23 @@
+{
+    "task": "6ea4a07e",
+    "subject": "n2et79bd",
+    "submission_count": 1,
+    "grid_data": [
+        [
+            0,
+            1,
+            1
+        ],
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            1,
+            1,
+            0
+        ]
+    ],
+    "cluster_group": "Success"
+}

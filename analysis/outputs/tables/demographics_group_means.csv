@@ -1,0 +1,33 @@
+measure,category,n,mean_accuracy,tested
+Gender,Female,67,0.8137,True
+Gender,Male,106,0.7955,True
+Gender,Not reported,2,,False
+Gender,Other,1,,False
+Handedness,Ambidextrous,7,0.876,True
+Handedness,Left-handed,12,0.7484,True
+Handedness,Not reported,2,,False
+Handedness,Right-handed,155,0.8029,True
+Race,American Indian or Alaska Native,1,,False
+Race,Asian,19,0.8311,True
+Race,Black or African American,26,0.6861,True
+Race,More than one race,5,0.846,True
+Race,Native Hawaiian or Pacific Islander,1,,False
+Race,Not reported,4,,False
+Race,White,120,0.8219,True
+Highest degree,Associate degree,20,0.7627,True
+Highest degree,Bachelor's degree,82,0.7944,True
+Highest degree,Doctorate,1,,False
+Highest degree,High school diploma or equivalency,44,0.8528,True
+Highest degree,Master's degree,23,0.7515,True
+Highest degree,None of the above,1,,False
+Highest degree,Not reported,2,,False
+Highest degree,Other,1,,False
+Highest degree,Professional,2,,False
+Job status,Full-time student,5,0.7826,True
+Job status,Keeping house full-time,8,0.8999,True
+Job status,Looking for work,5,0.9205,True
+Job status,Not reported,2,,False
+Job status,Other,1,,False
+Job status,Unemployed,6,0.9061,True
+Job status,Working full-time,124,0.7775,True
+Job status,Working part-time,25,0.8403,True

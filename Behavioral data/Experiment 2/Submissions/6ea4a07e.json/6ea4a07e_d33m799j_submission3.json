@@ -1,0 +1,23 @@
+{
+    "task": "6ea4a07e",
+    "subject": "d33m799j",
+    "submission_count": 3,
+    "grid_data": [
+        [
+            1,
+            0,
+            0
+        ],
+        [
+            0,
+            1,
+            1
+        ],
+        [
+            0,
+            0,
+            0
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

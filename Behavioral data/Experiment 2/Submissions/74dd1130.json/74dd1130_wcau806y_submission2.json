@@ -1,0 +1,23 @@
+{
+    "task": "74dd1130",
+    "subject": "wcau806y",
+    "submission_count": 2,
+    "grid_data": [
+        [
+            9,
+            3,
+            4
+        ],
+        [
+            9,
+            4,
+            1
+        ],
+        [
+            9,
+            3,
+            3
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

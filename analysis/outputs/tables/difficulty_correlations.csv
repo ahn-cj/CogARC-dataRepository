@@ -1,0 +1,10 @@
+measure,column,n,r,p,rho,p_spearman,significant
+Edit sequence similarity,edit_similarity,75,-0.805,3.2454543227170875e-18,-0.836,1.0477953393285093e-20,True
+Deliberation time (mean of log),deliberation_log_mean,75,0.684,1.287819927966981e-11,0.773,4.467395329933807e-16,True
+"Deliberation time (median, s)",deliberation_median,75,0.675,3.013721539671045e-11,0.764,1.6438495043105758e-15,True
+Rated rule complexity,complexity,75,0.417,0.00020112019174249354,0.464,2.7227792527231123e-05,True
+Number of examples,num_train_examples,75,0.288,0.012338745063170342,0.341,0.0027436794987518286,True
+Normalized extra steps,norm_extra_steps,75,0.113,0.33356304354422445,0.345,0.002470343059762769,True
+Edits required for correct output,levenshtein,75,0.102,0.3831404672864578,0.213,0.06702305207725003,False
+Test grid size,test_output_size,75,0.034,0.7693533407979884,0.175,0.13220902701066345,False
+Number of colours,num_test_colors,75,-0.002,0.9845648362903895,-0.032,0.7856917156672212,False

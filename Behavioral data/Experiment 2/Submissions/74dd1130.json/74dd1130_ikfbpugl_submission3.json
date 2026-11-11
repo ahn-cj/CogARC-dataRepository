@@ -1,0 +1,23 @@
+{
+    "task": "74dd1130",
+    "subject": "ikfbpugl",
+    "submission_count": 3,
+    "grid_data": [
+        [
+            4,
+            4,
+            4
+        ],
+        [
+            9,
+            4,
+            5
+        ],
+        [
+            9,
+            5,
+            5
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

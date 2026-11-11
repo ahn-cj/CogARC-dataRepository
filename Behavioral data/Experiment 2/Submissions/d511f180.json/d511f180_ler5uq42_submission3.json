@@ -1,0 +1,32 @@
+{
+    "task": "d511f180",
+    "subject": "ler5uq42",
+    "submission_count": 3,
+    "grid_data": [
+        [
+            5,
+            8,
+            4,
+            5
+        ],
+        [
+            3,
+            8,
+            7,
+            5
+        ],
+        [
+            3,
+            7,
+            1,
+            9
+        ],
+        [
+            6,
+            4,
+            8,
+            8
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

@@ -1,0 +1,29 @@
+{
+    "task": "c8f0f002",
+    "subject": "0yfthc4y",
+    "submission_count": 2,
+    "grid_data": [
+        [
+            1,
+            0,
+            0,
+            1,
+            0
+        ],
+        [
+            0,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            0,
+            0
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}

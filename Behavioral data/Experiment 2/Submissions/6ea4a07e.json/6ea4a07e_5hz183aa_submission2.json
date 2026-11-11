@@ -1,0 +1,23 @@
+{
+    "task": "6ea4a07e",
+    "subject": "5hz183aa",
+    "submission_count": 2,
+    "grid_data": [
+        [
+            1,
+            0,
+            0
+        ],
+        [
+            1,
+            1,
+            1
+        ],
+        [
+            0,
+            1,
+            1
+        ]
+    ],
+    "cluster_group": "Miscellaneous"
+}
