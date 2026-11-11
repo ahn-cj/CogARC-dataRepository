@@ -28,9 +28,9 @@ EXP2 = DATA_REPO / "Experiment 2"
 
 # Per-trial behavioral measures.
 # Experiment 2 (Mechanical Turk): 14,107 rows, 233 sessions.
-SEQ_MEASURES_MTURK = DATA_REPO / "subject_task_sequence_measures_mturk.csv"
+SEQ_MEASURES_MTURK = DATA_REPO / "trial_measures_exp2.csv"
 # Experiment 1 (remote-supervised): 3,421 rows, 49 sessions.
-SEQ_MEASURES_ZOOM = DATA_REPO / "subject_task_sequence_measures_zoom.csv"
+SEQ_MEASURES_ZOOM = DATA_REPO / "trial_measures_exp1.csv"
 # Carries the true trial `order` column -- see ORDER_WARNING below.
 # Trial-level measures with the within-session trial `order`, which exists
 # nowhere else. behavioral_measures_filtered.csv, which this replaces, had the
@@ -38,9 +38,8 @@ SEQ_MEASURES_ZOOM = DATA_REPO / "subject_task_sequence_measures_zoom.csv"
 # subjects below that line carried no order and silently dropped out of every
 # within-session analysis regardless of the sample definition. This file is the
 # same merge with that filter removed: 14,107 rows, all 233 sessions.
-BEHAVIORAL_MEASURES = DATA_REPO / "behavioral_measures.csv"
+BEHAVIORAL_MEASURES = DATA_REPO / "trajectory_measures_exp2.csv"
 BEHAVIORAL_FILTERED = BEHAVIORAL_MEASURES  # old name, kept for callers
-TRIAL_SCORES = DATA_REPO / "trial_scores.csv"
 
 # Submitted grids, one file per participant attempt.
 SUBMISSIONS = EXP2 / "Submissions"
@@ -59,7 +58,7 @@ COMMON_SOLUTIONS = REPO / "Common solutions"
 # Where a run WRITES its rebuilt solutions. Identical to the above for a normal
 # run; a suffixed run writes alongside instead of over it.
 COMMON_SOLUTIONS_OUT = REPO / f"Common solutions{_suffix}"
-TASK_TAGS = REPO / "Task tags.csv"
+TASK_TAGS = REPO / "task_tags.csv"
 
 # --- private input, not distributed -----------------------------------------
 # The screening survey links subject IDs to Mechanical Turk worker IDs and
@@ -138,7 +137,7 @@ for _d in (DERIVED, TABLES, FIGURES):
 # --- analysis constants -----------------------------------------------------
 # `last_time` in SEQ_MEASURES_MTURK is NOT a session clock; ranking trials by
 # it correlates about -0.2 with true order. Use `order` in BEHAVIORAL_MEASURES.
-ORDER_WARNING = "Use behavioral_measures.order, never last_time."
+ORDER_WARNING = "Use trajectory_measures_exp2.order, never last_time."
 
 # Subject fl73adm5 / problem 82819916 records a 44-hour deliberation time (an
 # unattended browser session), 35x the next largest trial. Timing analyses drop

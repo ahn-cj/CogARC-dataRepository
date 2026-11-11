@@ -1,22 +1,27 @@
-Boston University CogARC Data Repository
+# Boston University CogARC Data Repository
 
-This repository contains behavioral and task data associated with the Cognitive Abstraction and Reasoning Corpus (CogARC), a human behavioral dataset based on the Abstraction and Reasoning Corpus (ARC). The data accompany two online experiments reported in the associated manuscript.
+Behavioral data, task files and analysis code for the Cognitive Abstraction and Reasoning Corpus (CogARC), a human behavioral dataset built on 75 problems from the Abstraction and Reasoning Corpus (ARC). The data come from the two experiments reported in the associated manuscript.
 
-The repository includes participant edit sequences, submission grids, task metadata, common solution patterns, and problem annotations intended to support reproducibility, secondary analyses, and comparative modeling of human abstract reasoning behavior.
+| | Sample | Setting | Sessions recorded | Trials recorded |
+|---|---|---|---|---|
+| Experiment 1 | Boston University | Remote, supervised over video call | 49 | 3,421 |
+| Experiment 2 | Amazon Mechanical Turk | Online, unsupervised | 233 | 14,107 |
 
+## Contents
 
-------------------------------------------------------------
-OVERVIEW OF CONTENTS
-------------------------------------------------------------
-
+```
 CogARC-dataRepository/
 ├── Behavioral data/
 │   ├── Experiment 1/
+│   │   ├── Edit sequences/
+│   │   └── Submissions/
 │   ├── Experiment 2/
-│   ├── subject_task_sequence_measures_mturk.csv
-│   ├── subject_task_sequence_measures_zoom.csv
-│   ├── behavioral_measures.csv
-│   ├── trial_scores.csv
+│   │   ├── Edit sequences/
+│   │   ├── Edit sequences typed/
+│   │   └── Submissions/
+│   ├── trial_measures_exp1.csv
+│   ├── trial_measures_exp2.csv
+│   ├── trajectory_measures_exp2.csv
 │   ├── trial_validity.csv
 │   ├── trial_inclusion.csv
 │   ├── participant_roster.csv
@@ -25,303 +30,171 @@ CogARC-dataRepository/
 ├── Task example PNGs/
 ├── Common solutions/
 ├── Common solutions visualized/
-├── Task tags.csv
-├── analysis/
+├── task_tags.csv
 ├── edit_sequence_data_dictionary.md
-└── README.md
-
+└── analysis/
+```
 
-------------------------------------------------------------
-WHICH TRIALS ENTER THE ANALYSES
-------------------------------------------------------------
+## Task files
 
-The raw files hold every trial collected. Nothing has been removed. Which
-trials enter the analyses reported in the manuscript is recorded separately, in
+| Path | Contents |
+|---|---|
+| `Task JSONs/<task_id>.json` | The ARC problem as shown to participants: the example input-output pairs (`train`) and the test input and output (`test`). |
+| `Task example PNGs/<task_id>.json.png` | An image of each problem's examples. |
+| `task_tags.csv` | Experimenter annotations for each problem: presentation order in Experiment 1, rated complexity (1 to 3), and up to three core knowledge tags. |
 
-    Behavioral data/trial_inclusion.csv
+Core knowledge tags: `Obj` (objectness), `Geo` (geometry and patterns), `GoD` (goal-directedness), `Num` (numbers and counting).
 
-one row per trial, with columns:
-
-    experiment          1 or 2
-    subject             session identifier, as in the raw files
-    trial               ARC problem id
-    person_id           the person, which may span two sessions
-    record              session_1 / novel_in_later / sole_session /
-                        repeat_session / unattributed_session / pilot
-    in_trial_level      whether the trial enters analyses grouped by problem
-    in_group_level      whether it also enters analyses grouped by participant
-    exclusion_reason    why not, where it does not
+## Behavioral data
 
-The manuscript uses two sets. Analyses grouped by problem, such as problem
-difficulty and the common errors, use every valid trial (the problem-level
-set, column in_trial_level). Analyses grouped by participant drop the
-participants with fewer than 12 valid trials (the participant-level set,
-column in_group_level).
-To reproduce either, join on (experiment, subject, trial) and keep the
-matching column.
+The raw files hold every trial that was collected, including trials that the manuscript excludes. See [Which trials enter the analyses](#which-trials-enter-the-analyses).
 
-    Experiment 1: 3,421 trials, 2,787 in analysis, 39 people
-        634  lab pilot, run before the main collection
+### Raw trial records
 
-    Experiment 2: 14,107 trials, 11,600 problem-level,     192 people
-                              11,563 participant-level, 185 people
-      1,335  repeat session: this problem was already attempted earlier
-        664  session could not be attributed to a person
-        476  examples never opened at any point in the trial
-         32  never edited the grid: every submission was the input copied
-             over or left blank
+Both experiments use the same folder structure, with one folder per problem.
 
-Twenty-six participants in Experiment 2 completed the study more than once
-under separate subject identifiers. Their sessions are all present in the raw
-files; Behavioral data/participant_roster.csv names every session in the
-sample and the person it belongs to. Analyses keep the first session per
-person, plus any problem a person met only in a later session. The repeat
-sessions are retained here because 1,335 problems were attempted twice by the
-same person, which is a rare source of test-retest data on ARC.
+**Submissions**
 
-Fifteen further sessions could not be attributed to a person at all, because
-the completion code the participant typed did not resolve to a Mechanical Turk
-worker. They are kept in the raw files and excluded from the analyses, since
-each could be an unrecognised return visit.
+```
+Behavioral data/Experiment <n>/Submissions/<task_id>.json/<task_id>_<subject_id>_submission<k>.json
+```
 
-------------------------------------------------------------
-ANALYSIS CODE
-------------------------------------------------------------
+One file per submission attempt. `grid_data` holds the submitted grid. A participant has more than one file for a problem if they made more than one attempt.
 
-analysis/
-├── src/cogarc/        analysis modules
-├── scripts/           regenerate the files shipped here
-├── docs/              how common errors are identified
-├── outputs/tables/    summary results
-└── run_all.py         runs everything, about two minutes
+**Edit sequences**
 
-Figures are not stored; run_all.py regenerates them into
-analysis/outputs/figures/.
+```
+Behavioral data/Experiment <n>/Edit sequences/<task_id>.json/subj_<subject_id>_trial_<task_id>.json.csv
+```
 
-Every path resolves inside this repository, so a clone runs without
-configuration:
+One file per trial, with one row per action in the order it occurred: loading the problem, editing a cell, resetting the grid, copying the test input, opening and closing the examples (Experiment 2 only), and submitting. Columns are defined in `edit_sequence_data_dictionary.md`.
 
-    cd analysis
-    python3 run_all.py
+`Edit sequences typed/` (Experiment 2 only) holds the same files with an added `type` column, which labels each edit as a `click` or a `drag`.
 
-Requires Python 3.9+, pandas, numpy, scipy, matplotlib, seaborn, openpyxl.
+### Trial-level measures
 
-One input is NOT distributed: the participant screening survey, which carries
-Mechanical Turk worker IDs and participant initials. The tables derived from it
-are shipped de-identified in analysis/outputs/tables/, and the modules that
-read it fail with an explanatory message rather than silently producing
-different numbers. Set COGARC_PRIVATE to that directory to regenerate them.
+| File | Rows | Contents |
+|---|---|---|
+| `trial_measures_exp1.csv` | 3,421 | One row per trial in Experiment 1: deliberation time, time between edits, resets, submissions, outcome. |
+| `trial_measures_exp2.csv` | 14,107 | The same for Experiment 2, plus the time and number of example views. |
+| `trajectory_measures_exp2.csv` | 14,107 | Measures of the edit trajectory for each Experiment 2 trial, and the position of the trial within the session (`order`). |
+| `trial_validity.csv` | 14,107 | For each Experiment 2 trial, whether the grid was edited and whether the examples were opened. |
 
+`last_time` in the trial measures is not a session clock. Use `order` in `trajectory_measures_exp2.csv` for the position of a trial within a session.
 
-------------------------------------------------------------
-BEHAVIORAL DATA
-------------------------------------------------------------
+### Participants
 
-Behavioral data are organized by experiment and problem, with separate folders for different data modalities.
+Subject IDs are random strings assigned at the start of a session. Some participants in Experiment 2 completed the study more than once and therefore have more than one subject ID.
 
+| File | Contents |
+|---|---|
+| `participant_roster.csv` | Every session in the Experiment 2 sample, the person it belongs to (`person_id`), and whether it was that person's first or second session. |
+| `duplicate_participants.csv` | The subject IDs that belong to the same person. |
 
-Experiments
------------
-Experiment 1:
-    First online behavioral experiment (Boston University sample)
+## Which trials enter the analyses
 
-Experiment 2:
-    Second online behavioral experiment (MTurk sample)
+`Behavioral data/trial_inclusion.csv` has one row per recorded trial and marks the trials that the manuscript analyzes.
 
-The internal folder structure is identical across experiments.
+| Column | Meaning |
+|---|---|
+| `experiment` | 1 or 2 |
+| `subject` | Subject ID, as in the raw files |
+| `trial` | ARC problem ID |
+| `person_id` | The participant, who may have more than one subject ID |
+| `record` | The kind of session the trial comes from |
+| `in_trial_level` | Whether the trial enters analyses grouped by problem |
+| `in_group_level` | Whether the trial also enters analyses grouped by participant |
+| `exclusion_reason` | The reason for exclusion, if the trial is excluded |
 
+To reproduce either analysis set, join on (`experiment`, `subject`, `trial`) and keep the rows where the matching column is true.
 
-------------------------------------------------------------
-SUBMISSIONS
-------------------------------------------------------------
+**Experiment 1.** 2,787 trials from 39 participants. The other 634 trials come from ten pilot sessions that were run before the main collection.
 
-Behavioral Data/
-└── Experiment X/
-    └── Submissions/
-        └── <task_id>.json/
-            ├── <task_id>_<subject_id>_submission1.json
-            ├── <task_id>_<subject_id>_submission2.json
-            └── ...
+**Experiment 2.** Analyses grouped by problem use 11,600 trials from 192 participants. Analyses grouped by participant use 11,563 trials from the 185 participants who have at least 12 valid trials.
 
-Each file contains the submitted output grid for a single participant attempt on a given task.
+| Trials excluded | Reason |
+|---|---|
+| 1,335 | Repeat session: the participant had already attempted this problem in an earlier session |
+| 664 | The session could not be attributed to a participant |
+| 476 | The examples were never opened during the trial |
+| 32 | The grid was never edited: every submission was blank or a copy of the test input |
 
-Notes:
-- Multiple submission files may exist per participant if they made multiple attempts.
-- Files are JSON-formatted and store the grid as a 2D integer array.
-- Subject IDs are anonymized and contain no identifying information.
+Twenty-six participants completed Experiment 2 twice under different subject IDs. The analyses keep each participant's first session, plus any problem that the participant saw only in the second session. The repeat sessions remain in the raw files.
 
+Fifteen sessions could not be linked to a Mechanical Turk worker. They remain in the raw files and are excluded from the analyses, as any of them could be a return visit.
 
-------------------------------------------------------------
-EDIT SEQUENCES
-------------------------------------------------------------
+## Common solutions
 
-Behavioral Data/
-└── Experiment X/
-    └── Edit sequences/
-        └── <task_id>.json/
-            ├── subj_<subject_id>_trial_<task_id>.json.csv
-            └── ...
+```
+Common solutions/<task_id>.json/<task_id>_Success.json
+Common solutions/<task_id>.json/<task_id>_Top Error <k>.json
+Common solutions/common_solutions_index.csv
+```
 
-Each CSV file contains a time-ordered sequence of participant actions during problem solving for a single problem.
+For each problem, the correct solution and every common error among first-attempt submissions in Experiment 2. A common error is an incorrect output grid that at least five participants submitted. There are 94 common errors across 50 problems, with one to five per problem. The other 25 problems have only a `Success` file.
 
-Typical actions include:
-- cell edits
-- resets
-- example viewing events (experiment 2 only)
-- submission events
+Participants are counted once, so repeat sessions do not add to a count. Submissions that are blank or an unedited copy of the test input are not counted.
 
-Cell edit events specify grid locations using (x, y) coordinates and a color value. These coordinates correspond directly to the indexing used in the JSON grid representations described below.
+`common_solutions_index.csv` lists every file with the number of participants who submitted that grid. `Common solutions visualized/` holds a PNG of each grid.
 
-These files enable reconstruction of participant trajectories and fine-grained analyses of problem-solving behavior. For a full index of possible actions, refer to the edit_sequence_data_dictionary.md file.
+## Grid format
 
+All grids (task files, submissions and common solutions) are 2D arrays of integers, indexed as `grid[row][column]`. Each integer from 0 to 9 is a color.
 
-------------------------------------------------------------
-GRID ENCODING AND COORDINATE SYSTEM
-------------------------------------------------------------
+| Value | Color | Hex |
+|---|---|---|
+| 0 | black (background) | `#2B2B2B` |
+| 1 | blue | `#248ADA` |
+| 2 | red | `#C71010` |
+| 3 | green | `#1FC719` |
+| 4 | yellow | `#F7DE28` |
+| 5 | grey | `#878494` |
+| 6 | pink | `#F954F2` |
+| 7 | orange | `#EE6000` |
+| 8 | purple | `#6B23A9` |
+| 9 | brown | `#8B5A28` |
 
-All grids in this repository (task JSONs, submission JSONs, and common solution JSONs) are stored as a 2D matrix (array of arrays) of integers.
+### Coordinates in the edit sequences
 
-- Grid format: grid[row][column]
-- Values range from 0 to 9
-- Each integer encodes a specific color on the grid
-- 0 represents the background / empty cell
+In the edit-sequence files, `x` is the row index and `y` is the column index. An edit with `x = 2, y = 5` sets `grid[2][5]`, and the flat index of a cell is `x * n_columns + y`.
 
+Replaying the edit sequences with this convention reproduces the logged submission in all 1,875 trials that we checked across the 75 problems. An earlier version of this README stated the opposite convention.
 
-Edit-sequence coordinates
--------------------------
-IMPORTANT: the `x` and `y` columns in the edit-sequence CSV files do NOT follow
-the Cartesian convention. In those files:
+## Analysis code
 
-    x = ROW index
-    y = COLUMN index
+`analysis/` holds the code that produces every number and figure in the manuscript. See `analysis/README.md` for details.
 
-so an edit event with x = 2, y = 5 sets grid[2][5].
+```bash
+cd analysis
+python3 run_all.py
+```
 
-Reconstructing a grid with the intuitive reading (x as the column) reproduces
-the logged submission for about 5% of trials. Reading x as the row reproduces
-it for 100%: verified on 1,875 trials across all 75 problems, and on 324 trials
-drawn only from the 27 non-square problems, where the two readings cannot be
-confused.
+The run takes about two minutes and requires Python 3.9+ with pandas, numpy, scipy, matplotlib, seaborn and openpyxl. Summary tables are stored in `analysis/outputs/tables/`. Figures are not stored; the run writes them to `analysis/outputs/figures/`.
 
-In Python:
+The participant screening survey is not distributed, as it contains Mechanical Turk worker IDs. The demographics tables derived from it are provided in aggregate in `analysis/outputs/tables/`.
 
-    flat_index = x * n_columns + y
+## Data use
 
-An earlier version of this README documented the opposite convention. Analyses
-that reconstructed grid states from the edit sequences using that description
-will not have reproduced the submitted grids.
+- Subject IDs are anonymized.
+- The repository contains no individual-level demographic or personally identifying information.
+- The data are released for research and educational use.
 
-
-COLOR ENCODING LEGEND
-------------------------------------------------------------
-
-The following integer-to-color mapping is used consistently across all JSON grids and edit-sequence files:
-
-0  = #2B2B2B  (background / empty)
-1  = #248ADA  (blue)
-2  = #C71010  (red)
-3  = #1FC719  (green)
-4  = #F7DE28  (yellow)
-5  = #878494  (grey)
-6  = #F954F2  (pink)
-7  = #EE6000  (orange)
-8  = #6B23A9  (purple)
-9  = #8B5A28  (brown)
-
-
-------------------------------------------------------------
-TASK FILES
-------------------------------------------------------------
-
-Task JSONs
-----------
-Task JSONs/
-├── <task_id>.json
-└── ...
-
-These files contain the original ARC-style task files, including training input-output pairs and test input-output. They define the problem structure presented to participants.
-
-
-Task Example PNGs
------------------
-Task example PNGs/
-├── <task_id>.json.png
-└── ...
-
-Static visualizations of the problem examples corresponding to each task, included for reference and documentation.
-
-
-------------------------------------------------------------
-COMMON SOLUTIONS
-------------------------------------------------------------
-
-Common solutions/
-└── <task_id>.json/
-   ├── <task_id>_Success.json
-   ├── <task_id>_Top Error 1.json
-   └── ...
-
-This folder contains, for each problem, the correct solution and every common error identified from first-attempt submissions in Experiment 2.
-
-A common error is a distinct incorrect output grid submitted by at least five distinct participants. The set contains 94 common errors across 50 problems, between one and five per problem. The remaining 25 problems produced no incorrect solution that five or more participants arrived at independently, and so have only a Success file.
-
-common_solutions_index.csv lists every file with the number of participants who submitted it.
-
-The threshold counts distinct people rather than sessions: 26 participants completed Experiment 2 more than once, and their repeat submissions are not double-counted. Submissions consisting of an unedited grid, either all background or an unmodified copy of the test input, are excluded, as neither reflects an inferred transformation.
-
-
-
-
-------------------------------------------------------------
-COMMON SOLUTIONS (VISUALIZED)
-------------------------------------------------------------
-
-Common solutions visualized/
-└── <task_id>.json/
-   ├── <task_id>_Success.json.png
-   ├── <task_id>_Top Error 1.json.png
-   └── ...
-
-PNG visualizations of the common solutions are provided for quick inspection and qualitative comparison.
-
-
-------------------------------------------------------------
-TASK ANNOTATIONS
-------------------------------------------------------------
-
-Task tags.csv
-
-This file contains experimenter-provided annotations for each problem, including:
-- task ID
-- experimenter-rated problem complexity
-- core knowledge category labels
-  (objectness [Obj], geometry & patterns [Geo],
-   goal-directedness [GoD], and numbers & counting [Num])
-
-These annotations were used in analyses reported in the associated manuscript.
-
-
-------------------------------------------------------------
-NOTES ON DATA USE
-------------------------------------------------------------
-
-- All subject identifiers are anonymized.
-- No individual-level demographic or personally identifying information is included. Demographics are reported in aggregate in analysis/outputs/tables/.
-- Data are released for research and educational use.
-- When using this dataset, please cite the associated CogARC manuscript.
-
-
-------------------------------------------------------------
-CITATION
-------------------------------------------------------------
+## Citation
 
 If you use this dataset, please cite:
 
-[Manuscript citation to be added]
+Ahn, C., Do, Q., Bakst, L., Pascale, M. P., McGuire, J. T., Hasselmo, M. E., & Stern, C. E. (2026). Exploring human behavior during abstract rule inference and problem solving with the Cognitive Abstraction and Reasoning Corpus. *arXiv preprint arXiv:2602.22408*. https://arxiv.org/abs/2602.22408
 
+```bibtex
+@article{ahn2026cogarc,
+  title   = {Exploring Human Behavior During Abstract Rule Inference and Problem Solving with the Cognitive Abstraction and Reasoning Corpus},
+  author  = {Ahn, Caroline and Do, Quan and Bakst, Leah and Pascale, Michael P. and McGuire, Joseph T. and Hasselmo, Michael E. and Stern, Chantal E.},
+  journal = {arXiv preprint arXiv:2602.22408},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2602.22408}
+}
+```
 
-------------------------------------------------------------
-CONTACT
-------------------------------------------------------------
+## Contact
 
-For questions or issues related to this dataset, please contact the authors of the associated manuscript.
+For questions about the dataset, please contact the authors of the associated manuscript.

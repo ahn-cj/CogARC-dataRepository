@@ -1,90 +1,49 @@
-------------------------------------------------------------
-EDIT SEQUENCE CSV: DATA DICTIONARY
-------------------------------------------------------------
+# Edit sequence data dictionary
 
-Each edit-sequence CSV file records a time-ordered log of participant actions while solving a single CogARC problem.
+Each edit-sequence CSV file is the log of one trial: one participant working on one problem. Each row is one action, in the order it occurred.
 
-Each row corresponds to one action event. Column definitions are listed below. Some columns may be unused or absent depending on experiment version or action type.
+## Columns
 
+| Column | Meaning |
+|---|---|
+| `action` | The type of action (see below) |
+| `x` | Row index of the edited cell, 0-based (edit actions only) |
+| `y` | Column index of the edited cell, 0-based (edit actions only) |
+| `color` | Integer from 0 to 9, the color written to the cell (edit actions only) |
+| `time` | Time of the action in milliseconds from the start of the trial |
+| `rt` | Time since the previous action, in milliseconds |
+| `outcome` | For an edit, whether the cell now matches the correct solution (1) or not (0). For a submission, `success` or `fail`. |
+| `type` | `click` or `drag`, for edit actions. Present only in `Edit sequences typed/` (Experiment 2). |
 
-Common columns
-----------------
+## Actions
 
-time
-    Time at which the action occurred, recorded relative to the start of the trial (in milliseconds).
+| Action | Meaning |
+|---|---|
+| `new` | A new problem is loaded |
+| `edit` | One grid cell is colored, by clicking or dragging |
+| `reset` | The working grid is cleared |
+| `copy` | The test input is copied to the working grid |
+| `showex` | The examples are opened (Experiment 2 only) |
+| `hideex` | The examples are closed (Experiment 2 only) |
+| `submit` | A solution attempt is submitted |
 
-rt
-    Reaction time between actions (in milliseconds).
+## Coordinates
 
-action
-    Type of action performed. Common values include:
-    - new        (load a new problem)
-    - edit         (modify a single grid cell by clicking or dragging)
-    - reset       (clear the current working grid)
-    - copy       (copy over the test input grid)
-    - showex   (open example view; Experiment 2 only)
-    - hideex    (close example view; Experiment 2 only)
-    - submit    (submit a solution attempt)
+`x` is the row index and `y` is the column index. An edit with `x = 2, y = 5` sets `grid[2][5]`, and the flat index of a cell is `x * n_columns + y`.
 
+Replaying the edit sequences with this convention reproduces the logged submission in all 1,875 trials that we checked across the 75 problems.
 
-Grid-related columns (used for edit actions)
---------------------------------------------
+## Colors
 
-x
-    Column index of the edited cell (0-based).
-
-y
-    Row index of the edited cell (0-based).
-
-color
-    Integer value (0–9) specifying the color written to the cell.
-    Color encodings are defined in the COLOR ENCODING LEGEND section.
-
-
-Submission-related columns
---------------------------
-
-outcome
-    For edit actions: Boolean or binary indicator of whether the grid edit was correct (1 = correct, 0 = incorrect).
-    For submission actions: Submission attempt result logged as either ‘success’ or ‘fail’.
-
-
-Color encoding legend
---------------------------
-
-0  = #2B2B2B  (black / background)
-1  = #248ADA  (blue)
-2  = #C71010  (red)
-3  = #1FC719  (green)
-4  = #F7DE28  (yellow)
-5  = #878494  (grey)
-6  = #F954F2  (pink)
-7  = #EE6000  (orange)
-8  = #6B23A9  (purple)
-9  = #8B5A28  (brown)
-
-
-Notes
------
-
-- Not all columns are populated for every action type.
-  For example, x, y, and color are only meaningful for edit actions.
-- The order of rows reflects the exact temporal sequence of actions.
-- Grid coordinates (x, y) correspond directly to JSON grid indexing:
-  grid[y][x].
-
-
-------------------------------------------------------------
-COORDINATE CONVENTION
-------------------------------------------------------------
-
-In the `x` and `y` columns of these files:
-
-    x = ROW index
-    y = COLUMN index
-
-An edit with x = 2, y = 5 sets grid[2][5]. This is the opposite of the
-Cartesian reading. Verified on 1,875 trials across all 75 problems, and on 324
-trials from the 27 non-square problems where the two readings cannot be
-confused: reading x as the row reproduces the logged submission for 100% of
-trials, reading it as the column for about 5%.
+| Value | Color | Hex |
+|---|---|---|
+| 0 | black (background) | `#2B2B2B` |
+| 1 | blue | `#248ADA` |
+| 2 | red | `#C71010` |
+| 3 | green | `#1FC719` |
+| 4 | yellow | `#F7DE28` |
+| 5 | grey | `#878494` |
+| 6 | pink | `#F954F2` |
+| 7 | orange | `#EE6000` |
+| 8 | purple | `#6B23A9` |
+| 9 | brown | `#8B5A28` |

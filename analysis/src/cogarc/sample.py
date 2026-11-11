@@ -30,7 +30,7 @@ Columns added to the raw measures
 ---------------------------------
 person_id     stable identifier for the human being
 source        'session_1' | 'novel_in_later' | 'sole_session'
-order         trial position within the session (from behavioral_measures.csv)
+order         trial position within the session (from trajectory_measures_exp2.csv)
 order_valid   whether ``order`` locates the trial in the person's exposure
 deliberation_ok  False for trials above the 2 h bound (see paths.DELIBERATION_MAX_MS)
 grid_edited      whether any submission was more than the input copied over

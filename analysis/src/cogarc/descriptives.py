@@ -97,7 +97,7 @@ def problem_summary(sample: pd.DataFrame | None = None) -> pd.DataFrame:
 def task_properties() -> pd.DataFrame:
     """Experimenter ratings and low-level features, keyed on ARC task id.
 
-    Ratings come from `Task tags.csv`. The structural features are computed
+    Ratings come from `task_tags.csv`. The structural features are computed
     from the problem definitions in `Task JSONs/` rather than read from a
     precomputed file, so they cannot drift from the problems themselves.
     """
